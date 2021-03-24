@@ -1,0 +1,54 @@
+html, body { 
+  font-size: 14px;
+}
+
+p {
+  margin: 0;
+}
+
+.voices-wrapper {
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
+  user-select: none;
+}
+
+.voices-wrapper > div {
+  padding: 0;
+  width: 8rem;
+  height: 8rem;
+  margin: 1rem;
+  line-height: 4rem;
+  border-radius: 100%;
+  overflow-wrap: break-word;
+  text-align: center;
+  font-size: 2rem;
+  background-color: rgba(255,100,255,0.4);
+}
+
+.edit-button-wrapper {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.edit-button {
+  padding: 1rem;
+  width: 4rem;
+  user-select: none;
+  text-align: center;
+  margin: 2rem;
+  font-size: 3rem;
+  background: rgb(0,0,0,0.1);
+}
+
+.last-note {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
