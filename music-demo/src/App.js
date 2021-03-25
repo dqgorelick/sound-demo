@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 import './App.css';
 
@@ -15,7 +15,7 @@ import hit_8_file from './assets/morning/hits/hit_8_Gb.wav';
 
 // import different sounds
 
-const split = {
+var split = {
   1: {
     1: [1, 2, 3, 4, 5, 6, 7, 8]
   },
@@ -70,28 +70,40 @@ const split = {
   }
 }
 
-let RANDOM = false;
-const urlParams = new URLSearchParams(window.location.search);
+
+var RANDOM = false;
+var SOUND_INDEX = 0;
+var urlParams = new URLSearchParams(window.location.search);
 if (urlParams.get('random')) {
     RANDOM = true;
 } 
+if (urlParams.get('vibe')) {
+    if (!isNaN(parseInt(urlParams.get('vibe'))))
+    SOUND_INDEX = parseInt(urlParams.get('vibe'));
+} 
 
 function App() {
-  const [hit_1] = useSound(hit_1_file);
-  const [hit_2] = useSound(hit_2_file);
-  const [hit_3] = useSound(hit_3_file);
-  const [hit_4] = useSound(hit_4_file);
-  const [hit_5] = useSound(hit_5_file);
-  const [hit_6] = useSound(hit_6_file);
-  const [hit_7] = useSound(hit_7_file);
-  const [hit_8] = useSound(hit_8_file);
+  // load sounds (this will be different in Snap Lens)
+  var [hit_1] = useSound(hit_1_file);
+  var [hit_2] = useSound(hit_2_file);
+  var [hit_3] = useSound(hit_3_file);
+  var [hit_4] = useSound(hit_4_file);
+  var [hit_5] = useSound(hit_5_file);
+  var [hit_6] = useSound(hit_6_file);
+  var [hit_7] = useSound(hit_7_file);
+  var [hit_8] = useSound(hit_8_file);
 
-  const morningSounds = [hit_1, hit_2, hit_3, hit_4, hit_5, hit_6, hit_7, hit_8]
+  var morningSounds = [hit_1, hit_2, hit_3, hit_4, hit_5, hit_6, hit_7, hit_8]
 
-  const [voices, setVoices] = useState([]);
-  const [lastNote, setLastNote] = useState(-1);
+  // create bank of sounds to switch between
+  var sounds = [
+    morningSounds
+  ]
 
-  const createVoice = () => {
+  var [voices, setVoices] = useState([]);
+  var [lastNote, setLastNote] = useState(-1);
+
+  var createVoice = function() {
     return {
       id: voices.length + 1,
       lastNoteIndex: 0,
@@ -99,66 +111,63 @@ function App() {
     }
   }
 
-  const addVoice = () => {
+  var addVoice = function () {
     if (voices.length < 8) {
       setVoices([...voices, createVoice()]);
     }
     console.log(voices)
   }
 
-  const removeVoice = () => {
+  var removeVoice = function() {
     if (voices.length) {
       setVoices(voices.slice(0, voices.length-1));
     }
     console.log(voices)
   }
 
-  // reset counts on all voices
-  const resetVoices = () => {
-    const newVoices = voices.forEach((voice) => {
-      return {
-        ...voice,
-        lastNoteIndex: 0,
-        count: 0
-      }}
-    )
-    setVoices(newVoices);
+  var playSound = function(sound) {
+    sound();
   }
 
   // determine the mapping of sounds based on the number of voices, and the selected voice ID
-  const selectSound = (voice) => {
+  var selectSound = function(voice) {
     // remember we are using index 1 for the split
-    const activeSplit = split[voices.length];
-    const selectedNotes = activeSplit[voice.id];
+    var activeSplit = split[voices.length];
+    var selectedNotes = activeSplit[voice.id];
     // select the next note in the array, based on voice.lastNoteIndex
-    let index;
+    var index;
     if (RANDOM) {
       index = Math.floor(Math.random()*selectedNotes.length);
     } else {
       index = voice.lastNoteIndex % selectedNotes.length;
     }
-    const actualIndex = selectedNotes[index] - 1;
+    var actualIndex = selectedNotes[index] - 1;
     // update global visual for last note played
     setLastNote(actualIndex+1);
     // update state of voice
     setVoiceState(voice);
-    morningSounds[actualIndex]();
+
+    var sound = sounds[0] // default to first value in sounds
+    // select song based on song index
+    if (sounds[SOUND_INDEX] !== undefined) {
+      sound = sounds[SOUND_INDEX]
+    }
+    playSound(sound[actualIndex])
   }
 
   // logic to update the new state for the voice
   // allows for algorithmic composition
-  const setVoiceState = (voice) => {
-    const allVoices = [...voices];
-    const before = allVoices.slice(0, voice.id - 1, 1);
-    const after = allVoices.slice(voice.id, allVoices.length);
-    const updatedVoices = [
-      ...before,
-      {...voice,
-        count: voice.count + 1,
-        lastNoteIndex: voice.lastNoteIndex + 1
-      },
-      ...after,
-    ]
+  var setVoiceState = function(voice) {
+    // create copy of original array (use immutable javascript)
+    var allVoices = voices.slice();
+    var before = allVoices.slice(0, voice.id - 1, 1);
+    var after = allVoices.slice(voice.id, allVoices.length);
+    var newVoice = voice;
+    newVoice.count = voice.count + 1;
+    newVoice.lastNoteIndex = voice.lastNoteIndex + 1;
+    // combine arrays
+    var updatedVoices = before.concat(newVoice)
+    updatedVoices = updatedVoices.concat(after)
     setVoices(updatedVoices);
   }
 
