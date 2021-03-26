@@ -103,6 +103,8 @@ function App() {
   var [voices, setVoices] = useState([]);
   var [lastNote, setLastNote] = useState(-1);
 
+  var lensStudioVoices = [];
+
   var createVoice = function() {
     return {
       id: voices.length + 1,
@@ -111,18 +113,25 @@ function App() {
     }
   }
 
+  var updateVoices = function (newVoices) {
+    // update global state of object within Lens object 
+    lensStudioVoices = newVoices;
+    
+    // update object in React
+    setVoices(newVoices);
+    console.log(lensStudioVoices, newVoices);
+  }
+
   var addVoice = function () {
     if (voices.length < 8) {
-      setVoices([...voices, createVoice()]);
+      updateVoices(voices.concat(createVoice()));
     }
-    console.log(voices)
   }
 
   var removeVoice = function() {
     if (voices.length) {
-      setVoices(voices.slice(0, voices.length-1));
+      updateVoices(voices.slice(0, voices.length-1));
     }
-    console.log(voices)
   }
 
   var playSound = function(sound) {
