@@ -100,10 +100,24 @@ function App() {
     morningSounds
   ]
 
+  // COMMENT OR DELETE these lines in Lens studio
   var [voices, setVoices] = useState([]);
   var [lastNote, setLastNote] = useState(-1);
 
-  var lensStudioVoices = [];
+  // UNCOMMENT me in lens studio
+  // var voices = [];
+
+  var updateVoices = function (updatedVoices) {
+    // update global state of object within Lens object 
+    
+    // UNCOMMENT me in lens studio
+    // voices = updatedVoices;
+    
+    // COMMENT OR DELETE in lens studio
+    setVoices(updatedVoices);
+
+    console.log(updatedVoices);
+  }
 
   var createVoice = function() {
     return {
@@ -111,15 +125,6 @@ function App() {
       lastNoteIndex: 0,
       count: 0,
     }
-  }
-
-  var updateVoices = function (newVoices) {
-    // update global state of object within Lens object 
-    lensStudioVoices = newVoices;
-    
-    // update object in React
-    setVoices(newVoices);
-    console.log(lensStudioVoices, newVoices);
   }
 
   var addVoice = function () {
@@ -177,7 +182,7 @@ function App() {
     // combine arrays
     var updatedVoices = before.concat(newVoice)
     updatedVoices = updatedVoices.concat(after)
-    setVoices(updatedVoices);
+    updateVoices(updatedVoices);
   }
 
   return (
