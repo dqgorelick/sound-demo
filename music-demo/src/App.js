@@ -4,126 +4,252 @@ import './App.css';
 
 import useSound from 'use-sound';
 
-import hit_1_file from './assets/morning/hits/hit_1_Gb.wav';
-import hit_2_file from './assets/morning/hits/hit_2_Ab.wav';
-import hit_3_file from './assets/morning/hits/hit_3_Bb.wav';
-import hit_4_file from './assets/morning/hits/hit_4_Cb.wav';
-import hit_5_file from './assets/morning/hits/hit_5_Db.wav';
-import hit_6_file from './assets/morning/hits/hit_6_Eb.wav';
-import hit_7_file from './assets/morning/hits/hit_7_F.wav';
-import hit_8_file from './assets/morning/hits/hit_8_Gb.wav';
-
-// import different sounds
-
-var split = {
-  1: {
-    1: [1, 2, 3, 4, 5, 6, 7, 8]
-  },
-  2: {
-    1: [1, 3, 5, 8],
-    2: [2, 4, 6, 7],
-  },
-  3: {
-    1: [1, 5, 8],
-    2: [3, 7],
-    3: [2, 4, 6],
-  },
-  4: {
-    1: [1, 8],
-    2: [3, 5],
-    3: [6, 7],
-    4: [2, 4]
-  },
-  5: {
-    1: [1, 8],
-    2: [3],
-    3: [5],
-    4: [2, 4],
-    5: [6, 7]
-  },
-  6: {
-    1: [1, 8],
-    2: [3],
-    3: [5],
-    4: [2, 4],
-    5: [6],
-    6: [7]
-  },
-  7: {
-    1: [1, 8],
-    2: [3],
-    3: [5],
-    4: [2],
-    5: [6],
-    6: [7],
-    7: [4]
-  },
-  8: {
-    1: [1],
-    2: [3],
-    3: [5],
-    4: [2],
-    5: [4],
-    6: [6],
-    7: [7],
-    8: [8],
-  }
-}
-
-
-var RANDOM = false;
-var SOUND_INDEX = 0;
-var urlParams = new URLSearchParams(window.location.search);
-if (urlParams.get('random')) {
-    RANDOM = true;
-} 
-if (urlParams.get('vibe')) {
-    if (!isNaN(parseInt(urlParams.get('vibe'))))
-    SOUND_INDEX = parseInt(urlParams.get('vibe'));
-} 
+import bass1_file from './assets/release1/bass1_Cs.wav';
+import bass2_file from './assets/release1/bass2_E.wav';
+import bass3_file from './assets/release1/bass3_Cs.wav';
+import bass4_file from './assets/release1/bass4_Gs.wav';
+import bass5_file from './assets/release1/bass5_A.wav';
+import bass6_file from './assets/release1/bass6_B.wav';
+import bass7_file from './assets/release1/bass7_Gs.wav';
+import bass8_file from './assets/release1/bass8_Cs.wav';
+import drums1_file from './assets/release1/drums1_kick.wav';
+import drums2_file from './assets/release1/drums2_hat.wav';
+import drums3_file from './assets/release1/drums3_snare.wav';
+import drums4_file from './assets/release1/drums4_hatperc.wav';
+import drums5_file from './assets/release1/drums5_kickdub.wav';
+import drums6_file from './assets/release1/drums6_hatopen.wav';
+import drums7_file from './assets/release1/drums7_snaresnap.wav';
+import drums8_file from './assets/release1/drums8_turn.wav';
+import gtr1_file from './assets/release1/gtr1_Csmin.wav';
+import gtr2_file from './assets/release1/gtr2_Csmin.wav';
+import gtr3_file from './assets/release1/gtr3_Csmin.wav';
+import gtr4_file from './assets/release1/gtr4_Csmin.wav';
+import gtr5_file from './assets/release1/gtr5_Amaj7.wav';
+import gtr6_file from './assets/release1/gtr6_B13.wav';
+import gtr7_file from './assets/release1/gtr7_Gsmin7.wav';
+import gtr8_file from './assets/release1/gtr8_Csmin7.wav';
+import piano1_file from './assets/release1/piano1_Csmin.wav';
+import piano2_file from './assets/release1/piano2_Csmin.wav';
+import piano3_file from './assets/release1/piano3_Csmin.wav';
+import piano4_file from './assets/release1/piano4_Csmin.wav';
+import piano5_file from './assets/release1/piano5_Amaj7.wav';
+import piano6_file from './assets/release1/piano6_B13.wav';
+import piano7_file from './assets/release1/piano7_Gsmin7.wav';
+import piano8_file from './assets/release1/piano8_Csmin7.wav';
+import string1_file from './assets/release1/strings1_Csmin.wav';
+import string2_file from './assets/release1/strings2_Csmin.wav';
+import string3_file from './assets/release1/strings3_Csmin.wav';
+import string4_file from './assets/release1/strings4_Csmin.wav';
+import string5_file from './assets/release1/strings5_Amaj7.wav';
+import string6_file from './assets/release1/strings6_B13.wav';
+import string7_file from './assets/release1/strings7_Gsmin7.wav';
+import string8_file from './assets/release1/strings8_Csmin7.wav';
+import synth1_file from './assets/release1/synth1_Csmin.wav';
+import synth2_file from './assets/release1/synth2_Csmin.wav';
+import synth3_file from './assets/release1/synth3_Csmin.wav';
+import synth4_file from './assets/release1/synth4_Csmin.wav';
+import synth5_file from './assets/release1/synth5_Amaj7.wav';
+import synth6_file from './assets/release1/synth6_B13.wav';
+import synth7_file from './assets/release1/synth7_Gsmin.wav';
+import synth8_file from './assets/release1/synth8_Csmin.wav';
 
 function App() {
-  // load sounds (this will be different in Snap Lens)
-  var [hit_1] = useSound(hit_1_file);
-  var [hit_2] = useSound(hit_2_file);
-  var [hit_3] = useSound(hit_3_file);
-  var [hit_4] = useSound(hit_4_file);
-  var [hit_5] = useSound(hit_5_file);
-  var [hit_6] = useSound(hit_6_file);
-  var [hit_7] = useSound(hit_7_file);
-  var [hit_8] = useSound(hit_8_file);
 
-  var morningSounds = [hit_1, hit_2, hit_3, hit_4, hit_5, hit_6, hit_7, hit_8]
+  // load sounds (this will be different in Snap Lens)
+  var [bass1] = useSound(bass1_file);
+  var [bass2] = useSound(bass2_file);
+  var [bass3] = useSound(bass3_file);
+  var [bass4] = useSound(bass4_file);
+  var [bass5] = useSound(bass5_file);
+  var [bass6] = useSound(bass6_file);
+  var [bass7] = useSound(bass7_file);
+  var [bass8] = useSound(bass8_file);
+  var [drums1] = useSound(drums1_file);
+  var [drums2] = useSound(drums2_file);
+  var [drums3] = useSound(drums3_file);
+  var [drums4] = useSound(drums4_file);
+  var [drums5] = useSound(drums5_file);
+  var [drums6] = useSound(drums6_file);
+  var [drums7] = useSound(drums7_file);
+  var [drums8] = useSound(drums8_file);
+  var [gtr1] = useSound(gtr1_file);
+  var [gtr2] = useSound(gtr2_file);
+  var [gtr3] = useSound(gtr3_file);
+  var [gtr4] = useSound(gtr4_file);
+  var [gtr5] = useSound(gtr5_file);
+  var [gtr6] = useSound(gtr6_file);
+  var [gtr7] = useSound(gtr7_file);
+  var [gtr8] = useSound(gtr8_file);
+  var [piano1] = useSound(piano1_file);
+  var [piano2] = useSound(piano2_file);
+  var [piano3] = useSound(piano3_file);
+  var [piano4] = useSound(piano4_file);
+  var [piano5] = useSound(piano5_file);
+  var [piano6] = useSound(piano6_file);
+  var [piano7] = useSound(piano7_file);
+  var [piano8] = useSound(piano8_file);
+  var [string1] = useSound(string1_file);
+  var [string2] = useSound(string2_file);
+  var [string3] = useSound(string3_file);
+  var [string4] = useSound(string4_file);
+  var [string5] = useSound(string5_file);
+  var [string6] = useSound(string6_file);
+  var [string7] = useSound(string7_file);
+  var [string8] = useSound(string8_file);
+  var [synth1] = useSound(synth1_file);
+  var [synth2] = useSound(synth2_file);
+  var [synth3] = useSound(synth3_file);
+  var [synth4] = useSound(synth4_file);
+  var [synth5] = useSound(synth5_file);
+  var [synth6] = useSound(synth6_file);
+  var [synth7] = useSound(synth7_file);
+  var [synth8] = useSound(synth8_file);
+
+  var bassSounds = [bass1, bass2, bass3, bass4, bass5, bass6, bass7, bass8];
+  var drumSounds = [drums1, drums2, drums3, drums4, drums5, drums6, drums7, drums8];
+  var guitarSounds = [gtr1, gtr2, gtr3, gtr4, gtr5, gtr6, gtr7, gtr8];
+  var pianoSounds = [piano1, piano2, piano3, piano4, piano5, piano6, piano7, piano8];
+  var stringSounds = [string1, string2, string3, string4, string5, string6, string7, string8];
+  var synthSounds = [synth1, synth2, synth3, synth4, synth5, synth6, synth7, synth8];
 
   // create bank of sounds to switch between
-  var sounds = [
-    morningSounds
-  ]
+  var sounds = {
+    1: drumSounds,
+    2: bassSounds,
+    3: synthSounds,
+    4: stringSounds,
+    5: guitarSounds,
+    6: pianoSounds,
+  }
 
-  // COMMENT OR DELETE these lines in Lens studio
+  // COMMENT OR DELETE react-specific code
+  var [lastInstrumentHit, setLastInstrumentHit] = useState(-1);
+  var [currentNote, setCurrentNote] = useState(1);
   var [voices, setVoices] = useState([]);
-  var [lastNote, setLastNote] = useState(-1);
+  var updateVoices = function (updatedVoices) {
+    setVoices(updatedVoices);
+  }
+  var updateLastInstrument = function(lastInstrument) {
+    setLastInstrumentHit(lastInstrument);
+  }
+  var updateCurrentNote = function(nextNote) {
+    setCurrentNote(nextNote);
+  }
 
   // UNCOMMENT me in lens studio
   // var voices = [];
+  // var currentNote = 1;
+  // var lastInstrumentHit = -1;
+  // var updateVoices = function (updatedVoices) {
+  //   voices = updatedVoices;
+  // }
+  // var updateLastInstrument = function(lastInstrument) {
+  //   lastInstrumentHit = lastInstrument;
+  // }
+  // var updateCurrentNote = function(nextNote) {
+  //   currentNote = nextNote;
+  // }
 
-  var updateVoices = function (updatedVoices) {
-    // update global state of object within Lens object 
-    
-    // UNCOMMENT me in lens studio
-    // voices = updatedVoices;
-    
-    // COMMENT OR DELETE in lens studio
-    setVoices(updatedVoices);
+  // main instrument variables – these need to be consistant in Lens Studio
+  var instruments = [ 
+    1, // DRUMS  
+    2, // BASS 
+    3, // SYNTH 
+    4, // STRINGS 
+    5, // GUITAR 
+    6  // PIANO
+  ];
 
-    console.log(updatedVoices);
+  // maps what the current step is and gets next step based on probability
+  var nextStepProbability = {
+    1: [
+      {step: 2, probability: 0.7},
+      {step: 7, probability: 0.3},
+    ],
+    2: [
+      {step: 7, probability: 0.8},
+      {step: 5, probability: 0.2},
+    ],
+    3: [
+      {step: 2, probability: 0.7},
+      {step: 5, probability: 0.3},
+    ],
+    4: [
+      {step: 2, probability: 0.5},
+      {step: 6, probability: 0.5},
+    ],
+    5: [
+      {step: 4, probability: 0.8},
+      {step: 6, probability: 0.2},
+    ],
+    6: [
+      {step: 7, probability: 0.4},
+      {step: 5, probability: 0.6},
+    ],
+    7: [
+      {step: 8, probability: 0.6},
+      {step: 1, probability: 0.4},
+    ],
+    8: [
+      {step: 4, probability: 0.6},
+      {step: 3, probability: 0.4},
+    ]
+  }
+
+  var getNextNote = function(current) {
+    // check probability of each 
+    var weightedValues = nextStepProbability[current];
+    var randomNumber = Math.random();
+    var threshold = 0;
+    for (var i=0; i<weightedValues.length; i++) {
+      threshold += weightedValues[i].probability;
+      if (threshold > randomNumber) {
+        return weightedValues[i].step;
+      }
+    }
+    console.log('NOTHING FOUND, ERROR');
+    return 0
+  }
+
+  var selectInitialInstrumentIndex = function() {
+    // iterate through selected instruments
+    var selectedInstruments = [];
+    voices.forEach(function(voice) {
+      selectedInstruments.push(instruments[voice.instrumentIndex]);
+    });
+    // find all possible instruments 
+    var possibleInstruments = [];
+    instruments.forEach(function(instrument) {
+      if (selectedInstruments.indexOf(instrument) === -1) {
+        possibleInstruments.push(instrument);
+      }
+    });
+    if (possibleInstruments.length === 0) {
+      // if no possible instruments, return a random instrument
+      return Math.floor(Math.random()*instruments.length);
+    } else {
+      var index = Math.floor(Math.random()*possibleInstruments.length)
+      return instruments.indexOf(possibleInstruments[index]);
+    }
+  }
+
+  // externalAPI
+  var setInstrument = function(voiceIndex, instrumentIndex) {
+    var newVoice = voices[voiceIndex];
+    newVoice.instrumentIndex = instrumentIndex;
+    updateVoice(newVoice, voiceIndex);
+  }
+
+  // externalAPI (if we want to pre-populate the menu)
+  var getInstrument = function(voiceIndex) {
+    return instruments[voices[voiceIndex].instrumentIndex];
   }
 
   var createVoice = function() {
     return {
       id: voices.length + 1,
       lastNoteIndex: 0,
-      count: 0,
+      instrumentIndex: selectInitialInstrumentIndex(),
     }
   }
 
@@ -133,56 +259,80 @@ function App() {
     }
   }
 
-  var removeVoice = function() {
+  // called with the voiceIndex, not the voice
+  var removeVoice = function(voiceIndex) {
     if (voices.length) {
-      updateVoices(voices.slice(0, voices.length-1));
+      var allVoices = voices.slice();
+      allVoices.splice(voiceIndex, 1);
+      updateVoices(allVoices);
     }
-  }
-
-  var playSound = function(sound) {
-    sound();
   }
 
   // determine the mapping of sounds based on the number of voices, and the selected voice ID
-  var selectSound = function(voice) {
-    // remember we are using index 1 for the split
-    var activeSplit = split[voices.length];
-    var selectedNotes = activeSplit[voice.id];
-    // select the next note in the array, based on voice.lastNoteIndex
-    var index;
-    if (RANDOM) {
-      index = Math.floor(Math.random()*selectedNotes.length);
+  var selectSound = function(voiceIndex) {
+    var sound = sounds[instruments[voices[voiceIndex].instrumentIndex]]
+    // if drum, follows its own logic 
+    if (voices[voiceIndex].instrumentIndex === 0) {
+      setVoiceState(voiceIndex);
+      playSound(sound[voices[voiceIndex].lastNoteIndex%sound.length])
     } else {
-      index = voice.lastNoteIndex % selectedNotes.length;
+      // otherwise follow logic, for changing note only if an instrument is hit twice
+      if (lastInstrumentHit === instruments[voices[voiceIndex].instrumentIndex]) {        
+        var nextNote = getNextNote(currentNote);
+        console.log('CURRENT NOTE', currentNote, 'NEXT NOTE', nextNote);
+        updateCurrentNote(nextNote);
+        // remember currentNote is index 1
+        playSound(sound[nextNote-1])
+      } else {
+        console.log('CURRENT NOTE', currentNote);
+        playSound(sound[currentNote-1])
+      }
+      updateLastInstrument(instruments[voices[voiceIndex].instrumentIndex]);
     }
-    var actualIndex = selectedNotes[index] - 1;
-    // update global visual for last note played
-    setLastNote(actualIndex+1);
-    // update state of voice
-    setVoiceState(voice);
-
-    var sound = sounds[0] // default to first value in sounds
-    // select song based on song index
-    if (sounds[SOUND_INDEX] !== undefined) {
-      sound = sounds[SOUND_INDEX]
-    }
-    playSound(sound[actualIndex])
   }
 
   // logic to update the new state for the voice
   // allows for algorithmic composition
-  var setVoiceState = function(voice) {
-    // create copy of original array (use immutable javascript)
-    var allVoices = voices.slice();
-    var before = allVoices.slice(0, voice.id - 1, 1);
-    var after = allVoices.slice(voice.id, allVoices.length);
+  var setVoiceState = function(voiceIndex) {
+    var voice = voices[voiceIndex];
     var newVoice = voice;
-    newVoice.count = voice.count + 1;
     newVoice.lastNoteIndex = voice.lastNoteIndex + 1;
-    // combine arrays
+    updateVoice(newVoice, voiceIndex);
+  }
+
+  // helper function to update voice
+  var updateVoice = function(newVoice, voiceIndex) {
+    var allVoices = voices.slice();
+    var before = allVoices.slice(0, voiceIndex, 1);
+    var after = allVoices.slice(voiceIndex + 1, allVoices.length);
     var updatedVoices = before.concat(newVoice)
     updatedVoices = updatedVoices.concat(after)
     updateVoices(updatedVoices);
+  }
+
+  // webapp specific playSound function
+  var playSound = function(sound) {
+    sound();
+  }
+
+  // webapp only – display the names of the instrument
+  var instrumentMap = {
+    1: 'DRUMS' ,
+    2: 'BASS',
+    3: 'SYNTH',
+    4: 'STRINGS',
+    5: 'GUITAR',
+    6: 'PIANO',
+  }
+  
+  // webapp only – add colors to the instruments
+  var colorMap = {
+    1: '#9296FF',
+    2: '#FFB0B0',
+    3: '#B0F6FF',
+    4: '#B0FFB8',
+    5: '#F4B0FF',
+    6: '#FFF492',
   }
 
   return (
@@ -191,27 +341,43 @@ function App() {
         {
           voices.map((voice, voiceIndex) => {
             return (
-              <div 
+              <div
+              className='voice-wrapper'
                 key={voiceIndex}
-                onClick={() => selectSound(voice)}
               >
-                <p>{JSON.stringify(split[voices.length][voice.id])}</p>
+                <div 
+                  className='voice'
+                  onClick={() => selectSound(voiceIndex)}
+                  style={{
+                    backgroundColor: colorMap[instruments[voices[voiceIndex].instrumentIndex]]
+                  }}
+                >
+                  <p>{instrumentMap[instruments[voice.instrumentIndex]]}</p>
+                </div>
+                <div 
+                  onClick={()=>{
+                    setInstrument(voiceIndex, selectInitialInstrumentIndex());
+                  }}
+                  className='change-instrument'
+                >
+                  🔄
+                </div>
+                <div 
+                  onClick={()=>{
+                    removeVoice(voiceIndex);
+                  }}
+                  className='delete-voice'
+                >
+                  ❌
+                </div>
               </div>
             )
           })
         }
       </div>
-      <div className={'edit-button-wrapper'}>
-        <div className={'edit-button'} onClick={addVoice}>+</div>
-        <div className={'edit-button'} onClick={removeVoice}>-</div>
-      </div>
+      <div className={'edit-button'} onClick={addVoice}>+</div>
       <div className={'last-note'}>
-        {
-        lastNote >= 0 ?  
-         <p>last note: {lastNote}</p>
-         :
-         <></>
-        }
+        <p>current: {currentNote}</p>
       </div>
     </div>
   );
